@@ -1,5 +1,4 @@
 const products = [
-  
   {
     id: "b01",
     name: "16pt + Matte Finish",
@@ -19,6 +18,7 @@ const products = [
           "5000 + $00.00",
         ],
       },
+      { "printed sides": ["full color one side", "full color both sides"] },
     ],
     description:
       "Business cards are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",

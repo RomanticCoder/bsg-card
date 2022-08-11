@@ -5,10 +5,9 @@ export default function Header() {
   const router = useRouter();
   return (
     <>
-      <nav id="header" className="w-full z-30 top-0 py-3">
-        <div className="w-full container mx-auto flex items-center justify-between mt-0 px-6 py-3">
+      <nav id="header" className="w-full z-30 top-0 pt-3">
+        <div className="w-full container mx-auto flex items-center justify-between my-0 px-6 pt-3 pb-6">
           <div className="flex flex-column ">
-            <img src="/" alt="bsg"></img>
             <div className="flex flex-col  tracking-wide no-underline hover:no-underline ">
               <div className="font-bold text-white text-xl">
                 BLUESKY GRAHPICS
@@ -61,6 +60,7 @@ export default function Header() {
             background-color: #0080cc;
           }
         `}</style>
+        <img src="/img/logo/banner_line.png" alt="bsg"></img>
       </nav>
       <div className="categories flex justify-center gap-8 my-3 py-3 text-lg text-slate-600 font-bold ">
         <Link href="/products/1">

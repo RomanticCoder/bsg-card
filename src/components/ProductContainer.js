@@ -7,13 +7,15 @@ export default function ProductContainer({
   name,
   description,
   category,
+  categoryId,
   src,
 }) {
+  console.log(category);
   return (
     <div className="flex flex-col font-sans mx-3 mt-4 rounded-xl shadow-md">
       <div className="flex-none w-80 h-48 relative">
         <img
-          src={`img/${src}`}
+          src={`/img/${src}`}
           className="w-full h-full object-cover rounded-t-xl "
           loading="lazy"
         />
@@ -29,7 +31,7 @@ export default function ProductContainer({
         <div className="flex items-baseline mb-3 pb-3 border-b border-slate-200"></div>
         <div className="flex space-x-4 text-sm font-medium">
           <div className="flex-auto flex space-x-4">
-            <Link href={`/product/${id}`}>
+            <Link href={`/products/${categoryId}/${id}`}>
               <button
                 className="h-10 px-6 font-semibold rounded-md bg-black text-white"
                 type="submit"
