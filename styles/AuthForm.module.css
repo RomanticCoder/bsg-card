@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 50px;
+  /* background-color: rgb(190, 190, 190); */
+  /* box shadow */
+}
+
+.main_heading {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.authInput {
+  margin: 5px 10px;
+  height: 30px;
+  font-size: 1rem;
+}
+
+.authSubmit {
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+}
+
+.authSwitch {
+  text-align: center;
+}

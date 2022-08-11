@@ -56,17 +56,13 @@ export default function Header() {
             </Link>
           </div>
         </div>
-        <style jsx>{
-          `
-            nav {
-              background-color: #0080cc;
-            }
-          `
-          //  // box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-          //   rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-        }</style>
+        <style jsx>{`
+          nav {
+            background-color: #0080cc;
+          }
+        `}</style>
       </nav>
-      <div className="flex justify-center gap-8 my-3 py-3 text-lg text-slate-600 font-bold ">
+      <div className="categories flex justify-center gap-8 my-3 py-3 text-lg text-slate-600 font-bold ">
         <Link href="/products/1">
           <span className="text-bold hover:text-blue-700 ">Business Cards</span>
         </Link>
@@ -82,6 +78,12 @@ export default function Header() {
           <span className="hover:text-blue-700">Sign</span>
         </Link>
         {/* </ul> */}
+        <style jsx>{`
+          .categories {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+              rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+          }
+        `}</style>
       </div>
     </>
   );
