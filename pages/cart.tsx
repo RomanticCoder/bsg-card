@@ -199,11 +199,11 @@ const Home: NextPage = (props) => {
                 ))}
                 {/* button -> firebase > database + storage */}
                 {isLoggedIn && cartItems.length > 0 && (
-                  <Checkout
-                    userObj={userObj}
-                    cartItems={cartItems}
-                    onPaymentClick={onPaymentClick}
-                  />
+                //   <Checkout
+                //     userObj={userObj}
+                //     cartItems={cartItems}
+                //     onPaymentClick={onPaymentClick}
+                //   />
                 )}
               </ul>
               {!isLoggedIn && (
