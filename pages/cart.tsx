@@ -138,85 +138,65 @@ const Home: NextPage = (props) => {
     // setCartItems([]);
   };
   return (
-      // <div className={styles.cart}>
-      //   <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
-      //     {userObj && <span>{userObj?.displayName}'s Cart</span>}
-      //     {!userObj && <span>Cart (local device)</span>}
-      //   </h1>
-      //   {/* {isLoading && (
-      //     <button type="button" className="bg-indigo-500 " disabled>
-      //       <svg
-      //         className="animate-spin h-5 w-5 mr-3 ..."
-      //         viewBox="0 0 24 24"
-      //       ></svg>
-      //       Loading...
-      //     </button>
-      //   )} */}
-      //   {cartItems?.length < 1 && (
-      //     <div className="w-96 mx-auto">
-      //       <p className="text-center text-gray-700 text-2xl my-4">
-      //         Your cart is empty.{" "}
-      //       </p>
-      //       <Link href="/products">
-      //         <button className="bg-black text-white p-3 rounded-lg">
-      //           Go to Products
-      //         </button>
-      //       </Link>
-      //     </div>
-      //   )}
+    <div className={styles.cart}>
+      <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
+        {userObj && <span>{userObj?.displayName}'s Cart</span>}
+        {!userObj && <span>Cart (local device)</span>}
+        </h1>
 
-      //   {cartItems.length > 0 && (
-      //     <div>
-      //       {!isLoggedIn && (
-      //         <>
-      //           <p>
-      //             As a guest user, your cart is only accessible on your current
-      //             device.
-      //           </p>
-      //           <Link href="/auth">
-      //             <u>Want to create an account?</u>
-      //           </Link>
-      //           {cartItemsFromLC?.map((item) => (
-      //             <CartItem
-      //               onDelete={deleteItem}
-      //               OnQuantityClick={updateQty}
-      //               key={Math.random()}
-      //               item={item}
-      //             />
-      //           ))}
-      //         </>
-      //       )}
-      //       <div className="flex flex-row justify-center">
-      //         <ul className="flex flex-col p-6 rounded-lg shadow-lg mb-3 divide-y-2">
-      //           {cartItems?.map((item) => (
-      //             <CartItem
-      //               onDelete={deleteItem}
-      //               OnQuantityClick={updateQty}
-      //               key={Math.random()}
-      //               item={item}
-      //             />
-      //           ))}
-      //           {/* button -> firebase > database + storage */}
-      //           {isLoggedIn && cartItems.length > 0 && (
-      //           //   <Checkout
-      //           //     userObj={userObj}
-      //           //     cartItems={cartItems}
-      //           //     onPaymentClick={onPaymentClick}
-      //           //   />
-      //           )}
-      //         </ul>
-      //         {!isLoggedIn && (
-      //           <Link href="/auth">
-      //             <p className={styles.orderBtn}>
-      //               Sign in/up to place an order
-      //             </p>
-      //           </Link>
-      //         )}
-      //       </div>
-      //     </div>
-      //   )}
-      // </div>
-      <div>good</div>
+                {isLoading && (
+          <button type="button" className="bg-indigo-500 " disabled>
+            <svg
+              className="animate-spin h-5 w-5 mr-3 ..."
+              viewBox="0 0 24 24"
+            ></svg>
+            Loading...
+          </button>
+        )}
+
+{cartItems?.length < 1 && (
+          <div className="w-96 mx-auto">
+            <p className="text-center text-gray-700 text-2xl my-4">
+              Your cart is empty.{" "}
+            </p>
+            <Link href="/products">
+              <button className="bg-black text-white p-3 rounded-lg">
+                Go to Products
+              </button>
+            </Link>
+          </div>
+        )}
+
+
+<div className="flex flex-row justify-center">
+              <ul className="flex flex-col p-6 rounded-lg shadow-lg mb-3 divide-y-2">
+                {cartItems?.map((item) => (
+                  <CartItem
+                    onDelete={deleteItem}
+                    OnQuantityClick={updateQty}
+                    key={Math.random()}
+                    item={item}
+                  />
+                ))}
+                {/* button -> firebase > database + storage */}
+                {isLoggedIn && cartItems.length > 0 && (
+                  <p>checkout button</p>
+                //   <Checkout
+                //     userObj={userObj}
+                //     cartItems={cartItems}
+                //     onPaymentClick={onPaymentClick}
+                //   />
+                )}
+              </ul>
+              {!isLoggedIn && (
+                <Link href="/auth">
+                  <p className={styles.orderBtn}>
+                    Sign in/up to place an order
+                  </p>
+                </Link>
+              )}
+            </div>
+    </div>
   );
 };
 
