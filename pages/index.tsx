@@ -38,6 +38,7 @@ const Home: NextPage = (props) => {
                     id={product.id}
                     name={product.name}
                     category={product.category}
+                    categoryId={product.categoryId}
                     description={product.description}
                     price={product.price}
                     src={product.url}
