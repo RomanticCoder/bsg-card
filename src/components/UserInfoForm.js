@@ -4,7 +4,7 @@ import React from "react";
 const Auth = (props) => {
 
   return (
-<form onSubmit={props.onFormSubmit} className="flex flex-col bg-gray-200 gap-6 rounded-xl p-4">
+<form onSubmit={onFormSubmit} className="flex flex-col bg-gray-200 gap-6 rounded-xl p-4">
     <legend className="text-center font-bold">Contact Info</legend>
     <span className="text-red-600 text-sm">* Our staff will contact you soon to confirm the order and help you make a payment.</span>
     <div className="flex flex-col gap-3">

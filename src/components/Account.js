@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // import Orders from "../components/Orders";
 import { authService } from "../fbase";
+import Orders from "./Orders";
 
 export default function Account({ userObj }) {
   console.log(authService);
@@ -15,7 +16,7 @@ export default function Account({ userObj }) {
   console.log("account here");
 
   return (
-    <div className="flex flex-column">
+    <div className="flex flex-col">
       <h1 className="block text-center text-gray-700 text-lg font-bold my-4">
         Hello, {userObj?.displayName ? userObj?.displayName : "null"}
       </h1>
@@ -26,7 +27,7 @@ export default function Account({ userObj }) {
       >
         Log Out
       </button>
-      {/* <Orders userObj={userObj} /> */}
+      <Orders userObj={userObj} />
     </div>
   );
 }

@@ -6,9 +6,10 @@ import styles from "../styles/Home.module.css";
 import CartItem from "../src/components/CartItem";
 import UserInfoForm from "../src/components/UserInfoForm";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   addDoc,
+  setDoc,
   collection,
   deleteDoc,
   doc,
@@ -16,6 +17,7 @@ import {
   query,
   where,
   updateDoc,
+  getDocs
 } from "firebase/firestore";
 import {
   ref,
@@ -25,14 +27,23 @@ import {
 } from "@firebase/storage";
 import { dbService, storageService } from "../src/fbase";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 
 const Home: NextPage = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartItemsFromLC, setCartItemsFromLC] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+      const router = useRouter();
+
+  const nameInput = useRef(null);
+  const phoneInput = useRef(null);
+  const emailInput = useRef(null);
+
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
+
+  console.log(userObj)
 
   function getCartItemsfromLocalStorage() {
     setCartItemsFromLC(JSON.parse(localStorage.getItem("cart")));
@@ -139,10 +150,41 @@ const Home: NextPage = (props) => {
     // setCartItems([]);
   };
 
-  const onFormSubmit : React.FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault()
-    console.log("form is submitted")
-  }
+      const update = async (uid:string) => {
+      const q = query(
+          collection(dbService, "carts"),
+          where("userId", "==", uid)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (item) => {
+          console.log(item.id, " => ", item.data());
+          await setDoc(doc(dbService, "orders", item.id), {
+            ...item.data(),
+            createdAt: Date.now(),
+          });
+          const docRef = doc(dbService, "carts", item.id)
+          await deleteDoc(docRef);
+
+      });
+    }
+
+  const onFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log("form is submitted");
+    const uid = userObj?.uid;
+    update(uid);
+
+    router.push('/auth')
+    console.log("form was submitted")
+    // delete
+    // cartData.forEach( async(cart) => {
+    //   const docRef = doc(dbService, "carts", `${cart.id}`)
+    //   await deleteDoc(docRef);
+
+    //   const imageRef = ref(storageService, cart.attachmentUrl)
+    //   await deleteObject(imageRef);
+    // });
+  };
 
   return (
     <div className={styles.cart}>
@@ -186,7 +228,36 @@ const Home: NextPage = (props) => {
           ))}
           {/* button -> firebase > database + storage */}
           {isLoggedIn && cartItems.length > 0 && (
-            <UserInfoForm onFormSubmit={onFormSubmit}/>
+            <form
+              onSubmit={onFormSubmit}
+              className="flex flex-col bg-gray-200 gap-6 rounded-xl p-4"
+            >
+              <legend className="text-center font-bold">Contact Info</legend>
+              <span className="text-red-600 text-sm">
+                * Our staff will contact you soon to confirm the order and help
+                you make a payment.
+              </span>
+              {/* <div className="flex flex-col gap-3">
+                <label>
+                  Name:
+                  <input ref={nameInput} type="text" name="name" required />
+                </label>
+                <label>
+                  Phone number:
+                  <input ref={phoneInput} type="tel" name="phone" placeholder="123-456-7890" required />
+                </label>
+                <label>
+                  Email Address:
+                  <input ref={emailInput} type="email" name="email" required />
+                </label>
+              </div> */}
+
+              <input
+                className="bg-slate-800 text-white rounded-xl py-2"
+                type="submit"
+                value="Place an Order"
+              />
+            </form>
             //   <Checkout
             //     userObj={userObj}
             //     cartItems={cartItems}
