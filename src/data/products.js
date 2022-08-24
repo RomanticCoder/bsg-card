@@ -1,11 +1,10 @@
 const products = [
   {
-    id: "b01",
+    id: "101",
     name: "16pt + Matte Finish",
     categoryId: 1,
     category: "Business card",
     url: "card/1.jpg",
-    priceId: "price_1KzUYzHTFWSRxesuHHrADnVm",
     price: 100,
     options: [
       { size: ["3.5x2"] },
@@ -19,6 +18,9 @@ const products = [
         ],
       },
       { "printed sides": ["full color one side", "full color both sides"] },
+      {
+        "Production Turnaround Time": ["1-5 Business Days"],
+      },
     ],
     description:
       "Business cards are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",

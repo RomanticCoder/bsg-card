@@ -26,11 +26,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen w-full">
       <Header />
       <Component userObj={userObj} {...pageProps} />
       <Footer />
-    </>
+    </div>
   );
 }
 

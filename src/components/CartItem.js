@@ -7,11 +7,11 @@ export default function CartItem({ item, onDelete, OnQuantityClick }) {
     onDelete(item.id, item.attachmentUrl);
   };
 
-  const onQtyClick = () => {
-    const updatedAmount = item.qty + 1;
-    OnQuantityClick(item.id, updatedAmount);
-  };
-  console.log(item);
+  // const onQtyClick = () => {
+  //   const updatedAmount = item.qty + 1;
+  //   OnQuantityClick(item.id, updatedAmount);
+  // };
+  // console.log(item);
 
   return (
     <li className="flex p-6 w-full  mb-3">
@@ -34,7 +34,7 @@ export default function CartItem({ item, onDelete, OnQuantityClick }) {
             {/* <p className="ml-4">${item.price}</p> */}
             <p className="ml-4">Total: ${item.price * item.amount}</p>
           </div>
-          {/* {item.options?.length > 0 &&
+          {item.options?.length > 0 &&
             item.options.map((option, index) => {
               const name = Object.keys(option)[0];
               const value = option[name];
@@ -44,11 +44,11 @@ export default function CartItem({ item, onDelete, OnQuantityClick }) {
                   key={`options_${index}`}
                   className="mt-1 text-sm text-gray-500 flex justify-start"
                 >
-                  {name}:{value}
+                  <span className="text-black">{name}:&nbsp; </span> {value}
                 </p>
               );
               // return (<p className="mt-1 text-sm text-gray-500 flex justify-start">good {option}</p>)
-            })} */}
+            })}
         </div>
         <div className="flex flex-1 items-end justify-between text-sm mt-2">
           <p className="text-gray-700">Amount: {item.amount}</p>

@@ -17,7 +17,8 @@ import {
   query,
   where,
   updateDoc,
-  getDocs
+  getDocs,
+  namedQuery
 } from "firebase/firestore";
 import {
   ref,
@@ -43,7 +44,7 @@ const Home: NextPage = (props) => {
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
 
-  console.log(userObj)
+  console.log(cartItems)
 
   function getCartItemsfromLocalStorage() {
     setCartItemsFromLC(JSON.parse(localStorage.getItem("cart")));
@@ -80,6 +81,7 @@ const Home: NextPage = (props) => {
           ...doc.data(),
         };
       });
+      console.log(cartItemsArr)
 
       setCartItems(cartItemsArr);
     });
@@ -151,27 +153,35 @@ const Home: NextPage = (props) => {
   };
 
       const update = async (uid:string) => {
-      const q = query(
-          collection(dbService, "carts"),
-          where("userId", "==", uid)
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(async (item) => {
-          console.log(item.id, " => ", item.data());
-          await setDoc(doc(dbService, "orders", item.id), {
-            ...item.data(),
-            createdAt: Date.now(),
-          });
-          const docRef = doc(dbService, "carts", item.id)
-          await deleteDoc(docRef);
 
-      });
+        const userInfoObj = {
+          name: nameInput?.current.value,
+          phone: phoneInput?.current.value,
+          email:emailInput?.current.value
+        }
+        console.log(userInfoObj)
+        const q = query(
+            collection(dbService, "carts"),
+            where("userId", "==", uid)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (item) => {
+            console.log(item.id, " => ", item.data());
+            await setDoc(doc(dbService, "orders", item.id), {
+              ...item.data(),
+              createdAt: Date.now(),
+              contactInfo: userInfoObj
+            });
+            const docRef = doc(dbService, "carts", item.id)
+            await deleteDoc(docRef);
+
+        });
     }
 
   const onFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    console.log("form is submitted");
     const uid = userObj?.uid;
+
     update(uid);
 
     router.push('/auth')
@@ -187,13 +197,13 @@ const Home: NextPage = (props) => {
   };
 
   return (
-    <div className={styles.cart}>
+    <div className="p-10">
       <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
         {userObj && <span>{userObj?.displayName}'s Cart</span>}
         {!userObj && <span>Cart (local device)</span>}
       </h1>
 
-      {isLoading && (
+      {/* {isLoading && (
         <button type="button" className="bg-indigo-500 " disabled>
           <svg
             className="animate-spin h-5 w-5 mr-3 ..."
@@ -201,10 +211,10 @@ const Home: NextPage = (props) => {
           ></svg>
           Loading...
         </button>
-      )}
+      )} */}
 
       {cartItems?.length < 1 && (
-        <div className="w-96 mx-auto">
+        <div className="w-96 mx-auto flex flex-col">
           <p className="text-center text-gray-700 text-2xl my-4">
             Your cart is empty.{" "}
           </p>
@@ -216,6 +226,8 @@ const Home: NextPage = (props) => {
         </div>
       )}
 
+      {
+        cartItems?.length>0 && (
       <div className="flex flex-row justify-center">
         <ul className="flex flex-col p-6 rounded-lg shadow-lg mb-3 divide-y-2">
           {cartItems?.map((item) => (
@@ -237,20 +249,20 @@ const Home: NextPage = (props) => {
                 * Our staff will contact you soon to confirm the order and help
                 you make a payment.
               </span>
-              {/* <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3">
                 <label>
-                  Name:
-                  <input ref={nameInput} type="text" name="name" required />
+                  Name:&nbsp;
+                  <input className="px-2 rounded-lg" ref={nameInput} type="text" name="name" required />
                 </label>
                 <label>
-                  Phone number:
-                  <input ref={phoneInput} type="tel" name="phone" placeholder="123-456-7890" required />
+                  Phone number:&nbsp;
+                  <input className="px-2 rounded-lg" ref={phoneInput} type="tel" name="phone" placeholder="123-456-7890" required />
                 </label>
                 <label>
-                  Email Address:
-                  <input ref={emailInput} type="email" name="email" required />
+                  Email Address:&nbsp;
+                  <input className="px-2 rounded-lg" ref={emailInput} type="email" name="email" required />
                 </label>
-              </div> */}
+              </div>
 
               <input
                 className="bg-slate-800 text-white rounded-xl py-2"
@@ -271,6 +283,10 @@ const Home: NextPage = (props) => {
           </Link>
         )}
       </div>
+        )
+      }
+
+
     </div>
   );
 };

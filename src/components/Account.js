@@ -17,9 +17,6 @@ export default function Account({ userObj }) {
 
   return (
     <div className="flex flex-col">
-      <h1 className="block text-center text-gray-700 text-lg font-bold my-4">
-        Hello, {userObj?.displayName ? userObj?.displayName : "null"}
-      </h1>
       <button
         className="h-10 px-6 mx-auto font-semibold rounded-md bg-gray-700 text-white"
         type="submit"

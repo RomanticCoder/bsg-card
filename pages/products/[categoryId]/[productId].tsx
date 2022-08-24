@@ -100,7 +100,7 @@ const Product: NextPage = (props) => {
     await addDoc(collection(dbService, "carts"), itemObj);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit:React.FormEventHandler = (e) => {
     e.preventDefault();
     // price, category, options, price, amount => total
     const options = [];
@@ -111,7 +111,7 @@ const Product: NextPage = (props) => {
     }
     const cartItemObj = {
       price: item.price,
-      priceId: item.priceId,
+      // priceId: item.priceId,
       name: item.name,
       productId: item.id,
       url: item.url,
@@ -221,9 +221,16 @@ const Product: NextPage = (props) => {
                 htmlFor="attach-file"
               >
                 Upload your design
-              </label>
-              {/* here should be something edited */}
-              <div className="text-red-600 text-xs flex flex-col max-w-sm">
+                              <input
+                id="attach-file"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+                className="opacity-0 "
+                placeholder="hi"
+                name="attachment"
+              />
+                            <div className="text-red-600 text-xs flex flex-col max-w-sm">
                 <p>*Ensure that the artwork is created in CMYK 300 dpi.</p>
                 <p>
                   Save the files as High Quality Print. - 1/16 inch bleeds on
@@ -235,17 +242,7 @@ const Product: NextPage = (props) => {
                 </p>
                 <p>Export all files into PDF format with bleeds.</p>
               </div>
-
-              <input
-                id="attach-file"
-                type="file"
-                accept="image/*"
-                onChange={onFileChange}
-                className="opacity-0 "
-                placeholder="hi"
-                name="attachment"
-              />
-              <div className="shadow appearance-none border mb-5 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <div className="shadow appearance-none border mb-5 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 <img
                   src={state.attachment ? state.attachment : initialURL}
                   className="max-w-xs max-h-xs h-xs"
@@ -260,6 +257,12 @@ const Product: NextPage = (props) => {
                   </div>
                 )}
               </div>
+              </label>
+              {/* here should be something edited */}
+
+
+
+
             </div>
 
             <div className="mb-4">
