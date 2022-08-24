@@ -19,7 +19,15 @@ function reducer(state: any, action: any) {
   return state;
 }
 
-const Product: NextPage = (props) => {
+type PageProps = {
+   userObj: {
+    displayName: string,
+           
+          uid: string,
+   }
+}
+
+const Product: NextPage<PageProps> = (props) => {
   const router = useRouter();
   const productId = router.query.productId;
   const selectedProduct = loadedProductsFromJS.filter(
@@ -27,13 +35,14 @@ const Product: NextPage = (props) => {
   )[0];
 
   const [item, setItem] = useState(selectedProduct);
-
+    console.log(selectedProduct)
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
 
-  useEffect(() => {
+  useEffect(()=>{
     setItem(selectedProduct);
-  }, [productId]);
+
+  },[productId])
 
   const initialURL =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi7MVrIk6pcV371GZ21bgtiT2nPq3omXZi2w&usqp=CAU";
@@ -114,8 +123,6 @@ const Product: NextPage = (props) => {
       // priceId: item.priceId,
       name: item.name,
       productId: item.id,
-      url: item.url,
-
       amount: state.amount,
       attachment: state.attachment,
       options: options,
@@ -128,18 +135,21 @@ const Product: NextPage = (props) => {
     moveToCart();
   };
 
+      console.log(item)
+
+      
   return (
     <div>
       {/* <h3 className={styles.category}>{selectedProduct.category}</h3> */}
       <h1 className="block text-center text-gray-700 text-4xl font-bold my-4">
-        {item.name}
+        {item?.name}
       </h1>
       <h2 className="block text-center text-gray-500 text-lg  my-4">
-        {item.category}
+        {item?.category}
       </h2>
       <div className="flex justify-center items-start flex-row">
         <div className="relative overflow-x-auto mx-10 shadow-md sm:rounded-lg">
-          <img className="w-80" src={`/img/${selectedProduct?.url}`} />
+          <img className="w-80" src={`/img/products/${selectedProduct?.id}.jpg`} />
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <tbody className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -149,7 +159,7 @@ const Product: NextPage = (props) => {
                 >
                   Paper Type
                 </th>
-                <td>14PT Gloss (95 Bright C2S)</td>
+                <td>sample: 14PT Gloss (95 Bright C2S)</td>
               </tr>
               <tr>
                 <th
@@ -158,7 +168,7 @@ const Product: NextPage = (props) => {
                 >
                   Coating
                 </th>
-                <td>No Coating</td>
+                <td>sample: No Coating</td>
               </tr>
             </tbody>
           </table>
@@ -170,10 +180,11 @@ const Product: NextPage = (props) => {
           >
             {/* <h2 className="block text-gray-700 text-lg font-bold mb-4">Select Options</h2> */}
 
-            {item.options &&
+            {item?.options &&
               item.options?.map((option) => {
                 const name = Object.keys(option)[0];
-                const values = option[name];
+                const values = option[name] || [];
+                console.log(values)
                 return (
                   <div className="mb-4" key={`option_${Math.random()}`}>
                     <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -189,7 +200,7 @@ const Product: NextPage = (props) => {
                         className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:shadow-outline"
                       >
                         <option value="">--Please Select--</option>
-                        {values.map((value) => (
+                        {values  && values?.map((value) => (
                           <option key={Math.random()} value={value}>
                             {value}
                           </option>

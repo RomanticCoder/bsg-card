@@ -14,7 +14,16 @@ import { faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 import styles from "../styles/Auth.module.css";
 import { NextPage } from "next";
 
-const Auth: NextPage = (props) => {
+type PageProps = {
+   userObj: {
+    displayName: string,
+           
+          uid: string,
+   }
+}
+
+const Auth: NextPage<PageProps> = (props) => {
+  console.log(props)
   const userObj = props.userObj;
   console.log(userObj);
   if (userObj) {

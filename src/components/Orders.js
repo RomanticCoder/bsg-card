@@ -42,22 +42,25 @@ export default function Orders({ userObj }) {
   return (
     <div className="flex flex-col items-center">
       <h1 className="block text-center text-gray-700 text-lg font-bold my-4">
-        {userObj?.displayName ? userObj?.displayName : "null"}'s Order History
+        {userObj?.displayName ? userObj?.displayName : "null"}: Order History
       </h1>
       {isLoading && (
         <div>
-          <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24"></svg>
+          <svg
+            className="animate-spin h-5 w-5 mr-3 ..."
+            viewBox="0 0 24 24"
+          ></svg>
         </div>
       )}
       {!isLoading && orders.length === 0 && "no order history"}
       <ul className="flex flex-col p-6 w-2/3 rounded-lg shadow-lg mb-3 divide-y-2">
         {orders?.map((item) => {
           return (
-            <li className="flex p-6 w-full  mb-3">
+            <li key={item.id} className="flex p-6 w-full  mb-3">
               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 {/* <Link to={`/product/${item.productId}`}> */}
                 <img
-                  src={item.attachment || `/img/${item.url}`}
+                  src={item.attachment || `/img/products/${item.id}`}
                   alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
                   className="h-full w-full object-cover object-center"
                 />

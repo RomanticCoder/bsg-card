@@ -30,7 +30,15 @@ import { dbService, storageService } from "../src/fbase";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 
-const Home: NextPage = (props) => {
+type PageProps = {
+   userObj: {
+    displayName: string,
+           
+          uid: string,
+   }
+}
+
+const Home: NextPage<PageProps> = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartItemsFromLC, setCartItemsFromLC] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -199,7 +207,7 @@ const Home: NextPage = (props) => {
   return (
     <div className="p-10">
       <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
-        {userObj && <span>{userObj?.displayName}'s Cart</span>}
+        {userObj && <span>{userObj?.displayName}`&apos;` Cart</span>}
         {!userObj && <span>Cart (local device)</span>}
       </h1>
 
@@ -251,15 +259,15 @@ const Home: NextPage = (props) => {
               </span>
               <div className="flex flex-col gap-3">
                 <label>
-                  Name:&nbsp;
+                  Name:
                   <input className="px-2 rounded-lg" ref={nameInput} type="text" name="name" required />
                 </label>
                 <label>
-                  Phone number:&nbsp;
+                  Phone number:
                   <input className="px-2 rounded-lg" ref={phoneInput} type="tel" name="phone" placeholder="123-456-7890" required />
                 </label>
                 <label>
-                  Email Address:&nbsp;
+                  Email Address: 
                   <input className="px-2 rounded-lg" ref={emailInput} type="email" name="email" required />
                 </label>
               </div>

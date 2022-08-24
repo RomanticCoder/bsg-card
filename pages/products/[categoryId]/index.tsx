@@ -7,7 +7,7 @@ import loadedProductsFromJS from "../../../src/data/products";
 import ProductContainer from "../../../src/components/ProductContainer";
 import { useRouter } from "next/router";
 
-const ProductsByCategory: NextPage = (props) => {
+const ProductsByCategory: NextPage = () => {
   const router = useRouter();
   const categoryId = router.query.categoryId ? router.query.categoryId : 0;
   const filteredProducts =
@@ -27,6 +27,7 @@ const ProductsByCategory: NextPage = (props) => {
     "Signs",
     "Labels",
   ];
+
   return (
     <div>
       <section className="bg-white py-8">
@@ -38,7 +39,6 @@ const ProductsByCategory: NextPage = (props) => {
 
             <div className="flex flex-wrap justify-center	">
               {loadedProducts.map((product: any) => {
-                console.log(product.url);
                 return (
                   <ProductContainer
                     key={product.id}
@@ -48,7 +48,6 @@ const ProductsByCategory: NextPage = (props) => {
                     categoryId={product.categoryId}
                     description={product.description}
                     price={product.price}
-                    src={product.url}
                   />
                 );
               })}

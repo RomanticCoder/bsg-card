@@ -8,14 +8,13 @@ export default function ProductContainer({
   description,
   category,
   categoryId,
-  src,
 }) {
-  console.log(category);
+  console.log(id);
   return (
     <div className="flex flex-col font-sans mx-3 mt-4 rounded-xl shadow-md">
       <div className="flex-none w-80 h-48 relative">
         <img
-          src={`/img/${src}`}
+          src={`/img/products/${id}.jpg`}
           className="w-full h-full object-cover rounded-t-xl "
           loading="lazy"
         />
