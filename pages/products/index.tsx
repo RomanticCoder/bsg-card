@@ -7,7 +7,7 @@ import loadedProductsFromJS from "../../src/data/products";
 import ProductContainer from "../../src/components/ProductContainer";
 import { useRouter } from "next/router";
 
-const AllProducts: NextPage = (props) => {
+const AllProducts: NextPage = () => {
   const [loadedProducts, setLoadedProducts]: any =
     useState(loadedProductsFromJS);
 
@@ -29,7 +29,6 @@ const AllProducts: NextPage = (props) => {
                     categoryId={product.categoryId}
                     description={product.description}
                     price={product.price}
-                    src={product.url}
                   />
                 );
               })}

@@ -10,12 +10,15 @@ export default function Header() {
           <div className="flex flex-column ">
             <div className="flex flex-col  tracking-wide no-underline hover:no-underline ">
               <Link href="/">
-                <div>
-                  <div className="font-bold text-white text-xl">
-                    BLUESKY GRAHPICS
-                  </div>
-                  <div className=" text-white text-xs font-thin">
-                    Print Everything! Quality printing with Amazing price
+                <div className="flex gap-2 items-center">
+                  <img className=" w-10 h-10" src="/img/logo/logo.png"></img>
+                  <div>
+                    <div className="font-bold text-white text-xl">
+                      BLUESKY GRAHPICS
+                    </div>
+                    <div className=" text-white text-xs font-thin">
+                      Print Everything! Quality printing with Amazing price
+                    </div>
                   </div>
                 </div>
               </Link>

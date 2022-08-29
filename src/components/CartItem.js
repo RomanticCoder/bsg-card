@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-export default function CartItem({ item, onDelete, OnQuantityClick }) {
+export default function CartItem({ item, onDelete }) {
   console.log(item);
   const onClick = (e) => {
     onDelete(item.id, item.attachmentUrl);
@@ -12,13 +12,13 @@ export default function CartItem({ item, onDelete, OnQuantityClick }) {
   //   OnQuantityClick(item.id, updatedAmount);
   // };
   // console.log(item);
-
+  console.log(item);
   return (
     <li className="flex p-6 w-full  mb-3">
       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
         <Link href={`/products/good`}>
           <img
-            src={item.attachment || `/img/${item.url}`}
+            src={item.attachment || `/img/products/${item.productId}.jpg`}
             alt={item.productId}
             className="h-full w-full object-cover object-center"
           />
@@ -29,7 +29,7 @@ export default function CartItem({ item, onDelete, OnQuantityClick }) {
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>
-              <Link href={`/products/${item.productId}`}>{item.name}</Link>
+              <Link href={`/products/${item.productId}.jpg`}>{item.name}</Link>
             </h3>
             {/* <p className="ml-4">${item.price}</p> */}
             <p className="ml-4">Total: ${item.price * item.amount}</p>

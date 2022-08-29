@@ -5,6 +5,8 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import CartItem from "../src/components/CartItem";
 import UserInfoForm from "../src/components/UserInfoForm";
+import emailjs from 'emailjs-com';
+
 
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -45,20 +47,22 @@ const Home: NextPage<PageProps> = (props) => {
 
       const router = useRouter();
 
-  const nameInput = useRef(null);
-  const phoneInput = useRef(null);
-  const emailInput = useRef(null);
+      const formRef = useRef();
+
+  const nameInput = useRef<HTMLInputElement>(null);
+  const phoneInput = useRef<HTMLInputElement>(null);
+  const emailInput = useRef<HTMLInputElement>(null);
 
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
 
   console.log(cartItems)
 
-  function getCartItemsfromLocalStorage() {
-    setCartItemsFromLC(JSON.parse(localStorage.getItem("cart")));
-  }
+  // function getCartItemsfromLocalStorage() {
+  //   setCartItemsFromLC(JSON.parse(localStorage.getItem("cart")));
+  // }
 
-  const deleteItem = async (id, attachmentUrl) => {
+  const deleteItem = async (id:string, attachmentUrl:string) => {
     const docRef = doc(dbService, "carts", id);
     await deleteDoc(docRef);
     if (attachmentUrl) {
@@ -67,12 +71,12 @@ const Home: NextPage<PageProps> = (props) => {
     }
   };
 
-  const updateQty = async (id, amount) => {
-    const docRef = doc(dbService, "carts", id);
-    await updateDoc(docRef, {
-      amount: amount,
-    });
-  };
+  // const updateQty = async (id, amount) => {
+  //   const docRef = doc(dbService, "carts", id);
+  //   await updateDoc(docRef, {
+  //     amount: amount,
+  //   });
+  // };
 
   function getCartItemsfromFB() {
     const cartsRef = collection(dbService, "carts");
@@ -83,52 +87,51 @@ const Home: NextPage<PageProps> = (props) => {
     );
 
     onSnapshot(q, (snapshot) => {
-      const cartItemsArr = snapshot.docs.map((doc) => {
+
+
+      const cartItemsArr:any = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
           ...doc.data(),
         };
       });
-      console.log(cartItemsArr)
-
       setCartItems(cartItemsArr);
     });
   }
 
-  async function implementLocalStorageCart() {
-    console.log("implement first");
-    console.log(cartItemsFromLC);
-    cartItemsFromLC.forEach(async (item) => {
-      console.log(item);
-      let attachmentUrl = "";
-      if (item.attachment !== "") {
-        const storageRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
-        await uploadString(storageRef, item.cartInfo.attachment, "data_url");
-        attachmentUrl = await getDownloadURL(storageRef);
-      }
+  // async function implementLocalStorageCart() {
+  //   console.log("implement first");
+  //   console.log(cartItemsFromLC);
+  //   cartItemsFromLC.forEach(async (item) => {
+  //     console.log(item);
+  //     let attachmentUrl = "";
+  //     if (item.attachment !== "") {
+  //       const storageRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+  //       await uploadString(storageRef, item.cartInfo.attachment, "data_url");
+  //       attachmentUrl = await getDownloadURL(storageRef);
+  //     }
 
-      const itemObj = {
-        ...item,
-        userId: userObj.uid,
-        attachmentUrl,
-      };
-      await addDoc(collection(dbService, "carts"), itemObj);
-      getCartItemsfromFB();
-      setCartItemsFromLC([]);
-    });
-    localStorage.removeItem("cart");
-  }
+  //     const itemObj = {
+  //       ...item,
+  //       userId: userObj.uid,
+  //       attachmentUrl,
+  //     };
+  //     await addDoc(collection(dbService, "carts"), itemObj);
+  //     getCartItemsfromFB();
+  //     setCartItemsFromLC([]);
+  //   });
+  //   localStorage.removeItem("cart");
+  // }
 
   useEffect(() => {
-    getCartItemsfromLocalStorage();
     console.log(cartItemsFromLC);
     if (isLoggedIn) {
       getCartItemsfromFB();
       console.log("logged in ");
       console.log(cartItemsFromLC);
-      if (cartItemsFromLC) {
-        implementLocalStorageCart();
-      }
+      // if (cartItemsFromLC) {
+      //   implementLocalStorageCart();
+      // }
     }
 
     setIsLoading(false);
@@ -162,10 +165,13 @@ const Home: NextPage<PageProps> = (props) => {
 
       const update = async (uid:string) => {
 
+        if(!nameInput){
+          return;
+        }
         const userInfoObj = {
-          name: nameInput?.current.value,
-          phone: phoneInput?.current.value,
-          email:emailInput?.current.value
+          name: nameInput?.current?.value,
+          phone: phoneInput?.current?.value,
+          email:emailInput?.current?.value
         }
         console.log(userInfoObj)
         const q = query(
@@ -185,6 +191,7 @@ const Home: NextPage<PageProps> = (props) => {
 
         });
     }
+
 
   const onFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -207,7 +214,7 @@ const Home: NextPage<PageProps> = (props) => {
   return (
     <div className="p-10">
       <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
-        {userObj && <span>{userObj?.displayName}`&apos;` Cart</span>}
+        {userObj && <span>Cart Of {userObj?.displayName}</span>}
         {!userObj && <span>Cart (local device)</span>}
       </h1>
 
@@ -241,7 +248,6 @@ const Home: NextPage<PageProps> = (props) => {
           {cartItems?.map((item) => (
             <CartItem
               onDelete={deleteItem}
-              OnQuantityClick={updateQty}
               key={Math.random()}
               item={item}
             />

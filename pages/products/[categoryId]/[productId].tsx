@@ -44,8 +44,7 @@ const Product: NextPage<PageProps> = (props) => {
 
   },[productId])
 
-  const initialURL =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi7MVrIk6pcV371GZ21bgtiT2nPq3omXZi2w&usqp=CAU";
+  const initialURL ='/img/others/sample.png'
   const initialState = { attachment: "", amount: 1 };
   const [state, dispatch] = useReducer(reducer, initialState);
   function onInputChange(e) {
@@ -56,10 +55,11 @@ const Product: NextPage<PageProps> = (props) => {
     });
   }
 
-  const onFileChange = (event) => {
-    const {
-      target: { files },
-    } = event;
+  const onFileChange:React.ChangeEventHandler = (event) => {
+    // const {
+    //   target: { files },
+    // } = event;
+    const files = event.currentTarget.files;
     const theFile = files[0];
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
@@ -71,7 +71,7 @@ const Product: NextPage<PageProps> = (props) => {
     reader.readAsDataURL(theFile);
   };
 
-  const onClearAttachment = () => dispatch({ name: "attachment", value: "" });
+  const onClearAttachment = () => dispatch({ name: "attachment", value: initialURL });
 
   const moveToCart = () => {
     router.push("/cart");
@@ -150,7 +150,7 @@ const Product: NextPage<PageProps> = (props) => {
       <div className="flex justify-center items-start flex-row">
         <div className="relative overflow-x-auto mx-10 shadow-md sm:rounded-lg">
           <img className="w-80" src={`/img/products/${selectedProduct?.id}.jpg`} />
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <tbody className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th
@@ -171,7 +171,7 @@ const Product: NextPage<PageProps> = (props) => {
                 <td>sample: No Coating</td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
         </div>
         {item && (
           <form

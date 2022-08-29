@@ -40,12 +40,12 @@ const AuthForm = () => {
   const toggleAccount = () => setNewAccount((prev) => !prev);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.main_heading}> Join BLUESKY Printings</h1>
-      <form onSubmit={onSubmit} className={styles.form}>
+    <div className="flex flex-col text-center">
+      <h1 className="font-bold text-4xl mt-10"> Join BLUESKY Printings</h1>
+      <form onSubmit={onSubmit} className=" flex flex-col w-96 p-10 gap-3">
         <input
           name="email"
-          className={styles.authInput}
+          className="bg-slate-300 rounded px-2 py-1"
           type="text"
           placeholder="Email"
           required
@@ -54,7 +54,7 @@ const AuthForm = () => {
         />
         <input
           name="password"
-          className={styles.authInput}
+          className="bg-slate-300 rounded px-2 py-1"
           type="password"
           placeholder="Password"
           required

@@ -60,8 +60,8 @@ export default function Orders({ userObj }) {
               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 {/* <Link to={`/product/${item.productId}`}> */}
                 <img
-                  src={item.attachment || `/img/products/${item.id}`}
-                  alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
+                  src={item.attachment || `/img/products/${item.productId}.jpg`}
+                  alt={`img of ${item.productId}`}
                   className="h-full w-full object-cover object-center"
                 />
                 {/* </Link> */}

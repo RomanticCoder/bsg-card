@@ -24,8 +24,8 @@ const ProductsByCategory: NextPage = () => {
     "All",
     "Business Card",
     "Marketing & Stationery",
-    "Signs",
     "Labels",
+    "Signs",
   ];
 
   return (
