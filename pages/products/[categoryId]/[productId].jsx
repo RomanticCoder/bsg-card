@@ -1,4 +1,9 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 // import { authService } from "../src/fbase";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -9,7 +14,7 @@ import { dbService, storageService } from "../../../src/fbase";
 import { v4 as uuidv4 } from "uuid";
 import { addDoc, collection } from "firebase/firestore";
 
-function reducer(state: any, action: any) {
+function reducer(state, action) {
   if (action.name) {
     return {
       ...state,
@@ -19,15 +24,7 @@ function reducer(state: any, action: any) {
   return state;
 }
 
-type PageProps = {
-   userObj: {
-    displayName: string,
-           
-          uid: string,
-   }
-}
-
-const Product: NextPage<PageProps> = (props) => {
+const Product = (props) => {
   const router = useRouter();
   const productId = router.query.productId;
   const selectedProduct = loadedProductsFromJS.filter(
@@ -35,27 +32,26 @@ const Product: NextPage<PageProps> = (props) => {
   )[0];
 
   const [item, setItem] = useState(selectedProduct);
-    console.log(selectedProduct)
+  console.log(selectedProduct);
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
 
-  useEffect(()=>{
+  useEffect(() => {
     setItem(selectedProduct);
+  }, [productId]);
 
-  },[productId])
-
-  const initialURL ='/img/others/sample.png'
+  const initialURL = "/img/others/sample.png";
   const initialState = { attachment: "", amount: 1 };
   const [state, dispatch] = useReducer(reducer, initialState);
-  function onInputChange(e) {
+  const onInputChange = (e) => {
     dispatch({
       name: e.target.name,
       value: e.target.value,
       type: e.target.dataset.type,
     });
-  }
+  };
 
-  const onFileChange:React.ChangeEventHandler = (event) => {
+  const onFileChange = (event) => {
     // const {
     //   target: { files },
     // } = event;
@@ -71,27 +67,30 @@ const Product: NextPage<PageProps> = (props) => {
     reader.readAsDataURL(theFile);
   };
 
-  const onClearAttachment = () => dispatch({ name: "attachment", value: initialURL });
+  const onClearAttachment = () =>
+    dispatch({ name: "attachment", value: initialURL });
 
   const moveToCart = () => {
     router.push("/cart");
   };
 
-  const storeLocally = (cartItemObj: Object) => {
-    let cartItems: any[] = [];
-    if (localStorage.getItem("cart")) {
-      cartItems = JSON.parse(localStorage.getItem("cart"));
-      console.log("got local storage data")
+  const storeLocally = (cartItemObj) => {
+    let cartItems = [];
+    const localCart = localStorage.getItem("cart");
+    if (localCart) {
+      cartItems = JSON.parse(localCart);
+      console.log("got local storage data");
     }
     cartItems.push(cartItemObj);
     localStorage.setItem("cart", JSON.stringify(cartItems));
 
-    const newCart = JSON.parse(localStorage.getItem("cart"));
-    console.log("new cart ");
-    console.log(newCart);
+    // const newCart = JSON.parse(localStorage.getItem("cart") []);
+    // console.log("new cart ");
+    // console.log(newCart);
   };
 
   const storeOnFirebase = async (cartItemObj) => {
+    console.log(cartItemObj);
     let attachmentUrl = "";
 
     if (cartItemObj.attachment !== "") {
@@ -109,7 +108,7 @@ const Product: NextPage<PageProps> = (props) => {
     await addDoc(collection(dbService, "carts"), itemObj);
   };
 
-  const onSubmit:React.FormEventHandler = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     // price, category, options, price, amount => total
     const options = [];
@@ -135,9 +134,8 @@ const Product: NextPage<PageProps> = (props) => {
     moveToCart();
   };
 
-      console.log(item)
+  console.log(item);
 
-      
   return (
     <div>
       {/* <h3 className={styles.category}>{selectedProduct.category}</h3> */}
@@ -149,7 +147,10 @@ const Product: NextPage<PageProps> = (props) => {
       </h2>
       <div className="flex justify-center items-start flex-row">
         <div className="relative overflow-x-auto mx-10 shadow-md sm:rounded-lg">
-          <img className="w-80" src={`/img/products/${selectedProduct?.id}.jpg`} />
+          <img
+            className="w-80"
+            src={`/img/products/${selectedProduct?.id}.jpg`}
+          />
           {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <tbody className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -182,13 +183,14 @@ const Product: NextPage<PageProps> = (props) => {
 
             {item?.options &&
               item.options?.map((option) => {
+                console.log("see here");
+                console.log(option);
                 const name = Object.keys(option)[0];
-                const values = option[name] || [];
-                console.log(values)
+                const values = option[name];
                 return (
                   <div className="mb-4" key={`option_${Math.random()}`}>
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                      *{name}
+                      *{name}:
                     </label>
                     <div className="inline-block relative w-64">
                       <select
@@ -200,11 +202,15 @@ const Product: NextPage<PageProps> = (props) => {
                         className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:shadow-outline"
                       >
                         <option value="">--Please Select--</option>
-                        {values  && values?.map((value) => (
-                          <option key={Math.random()} value={value}>
-                            {value}
-                          </option>
-                        ))}
+                        {values &&
+                          values?.map((value) => (
+                            <option
+                              key={`option_${name}_${value}`}
+                              value={value}
+                            >
+                              {value}
+                            </option>
+                          ))}
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg
@@ -232,48 +238,44 @@ const Product: NextPage<PageProps> = (props) => {
                 htmlFor="attach-file"
               >
                 Upload your design
-                              <input
-                id="attach-file"
-                type="file"
-                accept="image/*"
-                onChange={onFileChange}
-                className="opacity-0 "
-                placeholder="hi"
-                name="attachment"
-              />
-                            <div className="text-red-600 text-xs flex flex-col max-w-sm">
-                <p>*Ensure that the artwork is created in CMYK 300 dpi.</p>
-                <p>
-                  Save the files as High Quality Print. - 1/16 inch bleeds on
-                  all sides.
-                </p>
-                <p>
-                  For Adobe PDF files, ensure all fonts and images are embedded
-                  and that all the text is outlined.
-                </p>
-                <p>Export all files into PDF format with bleeds.</p>
-              </div>
-                            <div className="shadow appearance-none border mb-5 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <img
-                  src={state.attachment ? state.attachment : initialURL}
-                  className="max-w-xs max-h-xs h-xs"
+                <input
+                  id="attach-file"
+                  type="file"
+                  accept="image/*"
+                  onChange={onFileChange}
+                  className="opacity-0 "
+                  placeholder="hi"
+                  name="attachment"
                 />
-                {state.attachment && (
-                  <div
-                    className=""
-                    onClick={onClearAttachment}
-                    style={{ color: "pink" }}
-                  >
-                    <span className="text-pink-700 text-sm">Remove</span>
-                  </div>
-                )}
-              </div>
+                <div className="text-red-600 text-xs flex flex-col max-w-sm">
+                  <p>*Ensure that the artwork is created in CMYK 300 dpi.</p>
+                  <p>
+                    Save the files as High Quality Print. - 1/16 inch bleeds on
+                    all sides.
+                  </p>
+                  <p>
+                    For Adobe PDF files, ensure all fonts and images are
+                    embedded and that all the text is outlined.
+                  </p>
+                  <p>Export all files into PDF format with bleeds.</p>
+                </div>
+                <div className="shadow appearance-none border mb-5 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                  <img
+                    src={state.attachment ? state.attachment : initialURL}
+                    className="max-w-xs max-h-xs h-xs"
+                  />
+                  {state.attachment && (
+                    <div
+                      className=""
+                      onClick={onClearAttachment}
+                      style={{ color: "pink" }}
+                    >
+                      <span className="text-pink-700 text-sm">Remove</span>
+                    </div>
+                  )}
+                </div>
               </label>
               {/* here should be something edited */}
-
-
-
-
             </div>
 
             <div className="mb-4">
@@ -302,8 +304,8 @@ const Product: NextPage<PageProps> = (props) => {
                 className="shadow-sm border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 onChange={onInputChange}
                 placeholder="Enter your name here"
-                cols="40"
-                rows="5"
+                cols={40}
+                rows={5}
               ></textarea>
             </div>
 
