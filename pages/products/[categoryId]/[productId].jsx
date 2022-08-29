@@ -1,11 +1,5 @@
-import React, {
-  ChangeEventHandler,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import React, { useEffect, useReducer, useState } from "react";
 // import { authService } from "../src/fbase";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
 import loadedProductsFromJS from "../../../src/data/products";
 // import ProductDetail from "../../../src/components/ProductDetail";
