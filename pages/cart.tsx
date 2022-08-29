@@ -5,8 +5,7 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import CartItem from "../src/components/CartItem";
 import UserInfoForm from "../src/components/UserInfoForm";
-import emailjs from 'emailjs-com';
-
+import emailjs from "emailjs-com";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -20,7 +19,7 @@ import {
   where,
   updateDoc,
   getDocs,
-  namedQuery
+  namedQuery,
 } from "firebase/firestore";
 import {
   ref,
@@ -33,21 +32,21 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 
 type PageProps = {
-   userObj: {
-    displayName: string,
-           
-          uid: string,
-   }
-}
+  userObj: {
+    displayName: string;
+
+    uid: string;
+  };
+};
 
 const Home: NextPage<PageProps> = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartItemsFromLC, setCartItemsFromLC] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-      const router = useRouter();
+  const router = useRouter();
 
-      const formRef = useRef();
+  const formRef = useRef();
 
   const nameInput = useRef<HTMLInputElement>(null);
   const phoneInput = useRef<HTMLInputElement>(null);
@@ -56,13 +55,14 @@ const Home: NextPage<PageProps> = (props) => {
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
 
-  console.log(cartItems)
+  function getCartItemsfromLocalStorage() {
+    const localCart = localStorage.getItem("cart");
+    if (localCart) {
+      setCartItems(JSON.parse(localCart));
+    }
+  }
 
-  // function getCartItemsfromLocalStorage() {
-  //   setCartItemsFromLC(JSON.parse(localStorage.getItem("cart")));
-  // }
-
-  const deleteItem = async (id:string, attachmentUrl:string) => {
+  const deleteItem = async (id: string, attachmentUrl: string) => {
     const docRef = doc(dbService, "carts", id);
     await deleteDoc(docRef);
     if (attachmentUrl) {
@@ -87,9 +87,7 @@ const Home: NextPage<PageProps> = (props) => {
     );
 
     onSnapshot(q, (snapshot) => {
-
-
-      const cartItemsArr:any = snapshot.docs.map((doc) => {
+      const cartItemsArr: any = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
           ...doc.data(),
@@ -124,7 +122,19 @@ const Home: NextPage<PageProps> = (props) => {
   // }
 
   useEffect(() => {
-    console.log(cartItemsFromLC);
+    const localCart = localStorage.getItem("cart");
+    if (localCart) {
+          if (!isLoggedIn) {
+      setCartItems(JSON.parse(localCart));
+    }
+
+    if(isLoggedIn){
+      getCartItemsfromFB();
+    }
+      
+    }
+
+
     if (isLoggedIn) {
       getCartItemsfromFB();
       console.log("logged in ");
@@ -163,35 +173,29 @@ const Home: NextPage<PageProps> = (props) => {
     // setCartItems([]);
   };
 
-      const update = async (uid:string) => {
-
-        if(!nameInput){
-          return;
-        }
-        const userInfoObj = {
-          name: nameInput?.current?.value,
-          phone: phoneInput?.current?.value,
-          email:emailInput?.current?.value
-        }
-        console.log(userInfoObj)
-        const q = query(
-            collection(dbService, "carts"),
-            where("userId", "==", uid)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(async (item) => {
-            console.log(item.id, " => ", item.data());
-            await setDoc(doc(dbService, "orders", item.id), {
-              ...item.data(),
-              createdAt: Date.now(),
-              contactInfo: userInfoObj
-            });
-            const docRef = doc(dbService, "carts", item.id)
-            await deleteDoc(docRef);
-
-        });
+  const update = async (uid: string) => {
+    if (!nameInput) {
+      return;
     }
-
+    const userInfoObj = {
+      name: nameInput?.current?.value,
+      phone: phoneInput?.current?.value,
+      email: emailInput?.current?.value,
+    };
+    console.log(userInfoObj);
+    const q = query(collection(dbService, "carts"), where("userId", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (item) => {
+      console.log(item.id, " => ", item.data());
+      await setDoc(doc(dbService, "orders", item.id), {
+        ...item.data(),
+        createdAt: Date.now(),
+        contactInfo: userInfoObj,
+      });
+      const docRef = doc(dbService, "carts", item.id);
+      await deleteDoc(docRef);
+    });
+  };
 
   const onFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -199,8 +203,8 @@ const Home: NextPage<PageProps> = (props) => {
 
     update(uid);
 
-    router.push('/auth')
-    console.log("form was submitted")
+    router.push("/auth");
+    console.log("form was submitted");
     // delete
     // cartData.forEach( async(cart) => {
     //   const docRef = doc(dbService, "carts", `${cart.id}`)
@@ -228,6 +232,8 @@ const Home: NextPage<PageProps> = (props) => {
         </button>
       )} */}
 
+      {/* {!isLoggedIn && cartItemsFromLC.map((item) => "wow")} */}
+
       {cartItems?.length < 1 && (
         <div className="w-96 mx-auto flex flex-col">
           <p className="text-center text-gray-700 text-2xl my-4">
@@ -241,66 +247,72 @@ const Home: NextPage<PageProps> = (props) => {
         </div>
       )}
 
-      {
-        cartItems?.length>0 && (
-      <div className="flex flex-row justify-center">
-        <ul className="flex flex-col p-6 rounded-lg shadow-lg mb-3 divide-y-2">
-          {cartItems?.map((item) => (
-            <CartItem
-              onDelete={deleteItem}
-              key={Math.random()}
-              item={item}
-            />
-          ))}
-          {/* button -> firebase > database + storage */}
-          {isLoggedIn && cartItems.length > 0 && (
-            <form
-              onSubmit={onFormSubmit}
-              className="flex flex-col bg-gray-200 gap-6 rounded-xl p-4"
-            >
-              <legend className="text-center font-bold">Contact Info</legend>
-              <span className="text-red-600 text-sm">
-                * Our staff will contact you soon to confirm the order and help
-                you make a payment.
-              </span>
-              <div className="flex flex-col gap-3">
-                <label>
-                  Name:
-                  <input className="px-2 rounded-lg" ref={nameInput} type="text" name="name" required />
-                </label>
-                <label>
-                  Phone number:
-                  <input className="px-2 rounded-lg" ref={phoneInput} type="tel" name="phone" placeholder="123-456-7890" required />
-                </label>
-                <label>
-                  Email Address: 
-                  <input className="px-2 rounded-lg" ref={emailInput} type="email" name="email" required />
-                </label>
-              </div>
+      {cartItems?.length > 0 && (
+        <div className="flex flex-row justify-center">
+          <ul className="flex flex-col p-6 rounded-lg shadow-lg mb-3 divide-y-2">
+            {cartItems?.map((item) => (
+              <CartItem onDelete={deleteItem} key={Math.random()} item={item} />
+            ))}
+            {/* button -> firebase > database + storage */}
+            {isLoggedIn && (
+              <form
+                onSubmit={onFormSubmit}
+                className="flex flex-col bg-gray-200 gap-6 rounded-xl p-4"
+              >
+                <legend className="text-center font-bold">Contact Info</legend>
+                <span className="text-red-600 text-sm">
+                  * Our staff will contact you soon to confirm the order and
+                  help you make a payment.
+                </span>
+                <div className="flex flex-col gap-3">
+                  <label>
+                    Name:
+                    <input
+                      className="px-2 rounded-lg"
+                      ref={nameInput}
+                      type="text"
+                      name="name"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Phone number:
+                    <input
+                      className="px-2 rounded-lg"
+                      ref={phoneInput}
+                      type="tel"
+                      name="phone"
+                      placeholder="123-456-7890"
+                      required
+                    />
+                  </label>
+                  <label>
+                    Email Address:
+                    <input
+                      className="px-2 rounded-lg"
+                      ref={emailInput}
+                      type="email"
+                      name="email"
+                      required
+                    />
+                  </label>
+                </div>
 
-              <input
-                className="bg-slate-800 text-white rounded-xl py-2"
-                type="submit"
-                value="Place an Order"
-              />
-            </form>
-            //   <Checkout
-            //     userObj={userObj}
-            //     cartItems={cartItems}
-            //     onPaymentClick={onPaymentClick}
-            //   />
-          )}
-        </ul>
-        {!isLoggedIn && (
-          <Link href="/auth">
-            <p className={styles.orderBtn}>Sign in/up to place an order</p>
-          </Link>
-        )}
-      </div>
-        )
-      }
-
-
+                <input
+                  className="bg-slate-800 text-white rounded-xl py-2"
+                  type="submit"
+                  value="Place an Order"
+                />
+              </form>
+            )}
+            {!isLoggedIn && (
+              <Link href="/auth">
+                <p className="bg-slate-800 text-white rounded-xl py-2 text-center">Sign in/up to place an order</p>
+              </Link>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

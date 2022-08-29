@@ -317,16 +317,16 @@ const products = [
     description:
       "Post cards are widely used as a networking tool and a way to make a good first impression.",
   },
-  {
-    id: "301",
-    name: "Stickers",
-    categoryId: 3,
-    category: "Lables",
-    price: 200,
-    options: [],
-    description:
-      "Stickers are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",
-  },
+  // {
+  //   id: "301",
+  //   name: "Stickers",
+  //   categoryId: 3,
+  //   category: "Lables",
+  //   price: 200,
+  //   options: [],
+  //   description:
+  //     "Stickers are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",
+  // },
   {
     id: "401",
     name: "Sandwich Board",
