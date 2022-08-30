@@ -32,9 +32,14 @@ export default function Header({ userObj }) {
           >
             <Link href="/auth">
               <div className=" text-white flex gap-2">
-                <span>
-                  Hello, {userObj?.displayName ? userObj?.displayName : "null"}
-                </span>
+                {Boolean(userObj) && (
+                  <span>
+                    {userObj?.displayName
+                      ? "Hello, " + userObj?.displayName
+                      : ""}
+                  </span>
+                )}
+
                 <svg
                   className="fill-current "
                   xmlns="http://www.w3.org/2000/svg"
