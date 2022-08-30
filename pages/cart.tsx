@@ -39,9 +39,11 @@ type PageProps = {
   };
 };
 
+type cartItem = { [x: string]: any };
+
 const Home: NextPage<PageProps> = (props) => {
   const [cartItems, setCartItems] = useState([]);
-  const [cartItemsFromLC, setCartItemsFromLC] = useState([]);
+  const [localCartItems, setLocalCartItems] = useState<cartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
@@ -97,51 +99,43 @@ const Home: NextPage<PageProps> = (props) => {
     });
   }
 
-  // async function implementLocalStorageCart() {
-  //   console.log("implement first");
-  //   console.log(cartItemsFromLC);
-  //   cartItemsFromLC.forEach(async (item) => {
-  //     console.log(item);
-  //     let attachmentUrl = "";
-  //     if (item.attachment !== "") {
-  //       const storageRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
-  //       await uploadString(storageRef, item.cartInfo.attachment, "data_url");
-  //       attachmentUrl = await getDownloadURL(storageRef);
-  //     }
+  async function implementLocalCart() {
+    localCartItems.forEach(async (item) => {
+      console.log(item);
+      let attachmentUrl = "";
+      if (item.attachment !== "") {
+        const storageRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+        await uploadString(storageRef, item.attachment, "data_url");
+        attachmentUrl = await getDownloadURL(storageRef);
+      }
 
-  //     const itemObj = {
-  //       ...item,
-  //       userId: userObj.uid,
-  //       attachmentUrl,
-  //     };
-  //     await addDoc(collection(dbService, "carts"), itemObj);
-  //     getCartItemsfromFB();
-  //     setCartItemsFromLC([]);
-  //   });
-  //   localStorage.removeItem("cart");
-  // }
+      const itemObj = {
+        ...item,
+        userId: userObj.uid,
+        attachmentUrl,
+      };
+
+      await addDoc(collection(dbService, "carts"), itemObj);
+      getCartItemsfromFB();
+      setLocalCartItems([]);
+    });
+    localStorage.removeItem("cart");
+  }
 
   useEffect(() => {
     const localCart = localStorage.getItem("cart");
     if (localCart) {
-          if (!isLoggedIn) {
-      setCartItems(JSON.parse(localCart));
-    }
+      if (!isLoggedIn) {
+        setCartItems(JSON.parse(localCart));
+      }
 
-    if(isLoggedIn){
-      getCartItemsfromFB();
+      if (isLoggedIn) {
+        setLocalCartItems(JSON.parse(localCart));
+      }
     }
-      
-    }
-
 
     if (isLoggedIn) {
       getCartItemsfromFB();
-      console.log("logged in ");
-      console.log(cartItemsFromLC);
-      // if (cartItemsFromLC) {
-      //   implementLocalStorageCart();
-      // }
     }
 
     setIsLoading(false);
@@ -173,7 +167,7 @@ const Home: NextPage<PageProps> = (props) => {
     // setCartItems([]);
   };
 
-  const update = async (uid: string) => {
+  const placeOrder = async (uid: string) => {
     if (!nameInput) {
       return;
     }
@@ -201,7 +195,7 @@ const Home: NextPage<PageProps> = (props) => {
     event.preventDefault();
     const uid = userObj?.uid;
 
-    update(uid);
+    placeOrder(uid);
 
     router.push("/auth");
     console.log("form was submitted");
@@ -216,9 +210,9 @@ const Home: NextPage<PageProps> = (props) => {
   };
 
   return (
-    <div className="p-10">
+    <div className="p-10 flex flex-col items-center gap-10">
       <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
-        {userObj && <span>Cart Of {userObj?.displayName}</span>}
+        {userObj && <span>Your Cart</span>}
         {!userObj && <span>Cart (local device)</span>}
       </h1>
 
@@ -232,8 +226,6 @@ const Home: NextPage<PageProps> = (props) => {
         </button>
       )} */}
 
-      {/* {!isLoggedIn && cartItemsFromLC.map((item) => "wow")} */}
-
       {cartItems?.length < 1 && (
         <div className="w-96 mx-auto flex flex-col">
           <p className="text-center text-gray-700 text-2xl my-4">
@@ -244,6 +236,23 @@ const Home: NextPage<PageProps> = (props) => {
               Go to Products
             </button>
           </Link>
+        </div>
+      )}
+
+      {isLoggedIn && localCartItems.length > 0 && (
+        <div className="bg-yellow-300 p-5 flex flex-row gap-24 ">
+          <p className="text-gray-800 ">
+            * You have{" "}
+            <span className="text-red-600">{localCartItems.length}</span>{" "}
+            item(s) saved on your local device. do you want to save it to your
+            account?
+          </p>
+          <button
+            onClick={implementLocalCart}
+            className="bg-slate-700 text-white px-5 rounded-xl"
+          >
+            Yes
+          </button>
         </div>
       )}
 
@@ -265,7 +274,7 @@ const Home: NextPage<PageProps> = (props) => {
                   help you make a payment.
                 </span>
                 <div className="flex flex-col gap-3">
-                  <label>
+                  <label className="flex gap-3">
                     Name:
                     <input
                       className="px-2 rounded-lg"
@@ -275,7 +284,7 @@ const Home: NextPage<PageProps> = (props) => {
                       required
                     />
                   </label>
-                  <label>
+                  <label className="flex gap-3">
                     Phone number:
                     <input
                       className="px-2 rounded-lg"
@@ -286,7 +295,7 @@ const Home: NextPage<PageProps> = (props) => {
                       required
                     />
                   </label>
-                  <label>
+                  <label className="flex gap-3">
                     Email Address:
                     <input
                       className="px-2 rounded-lg"
@@ -307,7 +316,9 @@ const Home: NextPage<PageProps> = (props) => {
             )}
             {!isLoggedIn && (
               <Link href="/auth">
-                <p className="bg-slate-800 text-white rounded-xl py-2 text-center">Sign in/up to place an order</p>
+                <p className="bg-slate-800 text-white rounded-xl py-2 text-center">
+                  Sign in/up to place an order
+                </p>
               </Link>
             )}
           </ul>

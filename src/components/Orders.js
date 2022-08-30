@@ -42,7 +42,7 @@ export default function Orders({ userObj }) {
   return (
     <div className="flex flex-col items-center">
       <h1 className="block text-center text-gray-700 text-lg font-bold my-4">
-        {userObj?.displayName ? userObj?.displayName : "null"}: Order History
+        Your Order History
       </h1>
       {isLoading && (
         <div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Header() {
+export default function Header({ userObj }) {
   const router = useRouter();
   return (
     <>
@@ -31,7 +31,10 @@ export default function Header() {
             id="nav-content"
           >
             <Link href="/auth">
-              <div className="inline-block text-white">
+              <div className=" text-white flex gap-2">
+                <span>
+                  Hello, {userObj?.displayName ? userObj?.displayName : "null"}
+                </span>
                 <svg
                   className="fill-current "
                   xmlns="http://www.w3.org/2000/svg"
