@@ -317,16 +317,16 @@ const products = [
     description:
       "Post cards are widely used as a networking tool and a way to make a good first impression.",
   },
-  // {
-  //   id: "301",
-  //   name: "Stickers",
-  //   categoryId: 3,
-  //   category: "Lables",
-  //   price: 200,
-  //   options: [],
-  //   description:
-  //     "Stickers are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",
-  // },
+  {
+    id: "301",
+    name: "Stickers",
+    categoryId: 3,
+    category: "Lables",
+    price: 200,
+    options: [],
+    description:
+      "Stickers are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",
+  },
   {
     id: "401",
     name: "Sandwich Board",
@@ -343,7 +343,52 @@ const products = [
     categoryId: 4,
     category: "Sign",
     price: 200,
-    options: [],
+    options: [
+      {
+        size: [
+          "6 x 24",
+          "6 x 32",
+          "6 x 36",
+          "12 x 12",
+          "12 x 16",
+          "12 x 24",
+          "12 x 36",
+          ,
+          "12 x 48",
+          ,
+          "18 x 24",
+          "24 x 24",
+          "24 x 32",
+          "24 x 36",
+          "24 x 48",
+          "32 x 48",
+          "36 x 36",
+          "36 x 48",
+          "48 x 48",
+        ],
+      },
+      {
+        Stock: [
+          "4mm Foam Board Printed 1 Sided (4/0)",
+          "4mm Foam Board Printed 2 Sided (4/4)",
+          "4mm Foam Board Printed 2 Sided (4/4) - same image",
+        ],
+      },
+      { "Need a custom size": ["Yes", "No"] },
+      {
+        Grommets: [
+          "No Grommets",
+          "Top 2 Grommets",
+          "All 4 Grommets",
+          "Every 2 - 3 Feet on Top and Bottom",
+          "Every 2 - 3 Feet on Sides",
+          "Every 2 - 3 Feet all Around",
+        ],
+      },
+      {
+        "Production Turnaround Time": ["4-6 Business Days"],
+      },
+    ],
     description:
       "Sandwich boards are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",
   },
@@ -353,7 +398,14 @@ const products = [
     categoryId: 4,
     category: "Sign",
     price: 200,
-    options: [],
+    options: [
+      { size: ["33 x 81"] },
+      { Stock: ["13oz Matte Vinyl Printed 1 Sided"] },
+      { "Includes Metal Stand": ["Yes", "No"] },
+      {
+        "Production Turnaround Time": ["1-5 Business Days"],
+      },
+    ],
     description:
       "Sandwich boards are widely used as a networking tool and a way to make a good first impression. Our 14pt Profit Maximizing business cards offer the same great quality at a lower price.",
   },

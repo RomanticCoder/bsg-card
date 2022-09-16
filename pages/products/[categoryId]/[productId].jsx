@@ -30,6 +30,20 @@ const Product = (props) => {
   const userObj = props.userObj;
   const isLoggedIn = Boolean(userObj);
 
+  let noticeText = "";
+  switch (productId) {
+    case "402":
+      noticeText =
+        "Ensure the file matches the product's required dimensions. Ensure that the artwork is created in CMYK 300 dpi with 1/16 inch bleeds on all sides. Make sure that all images are embedded, and that all the text is outlined. ";
+    case "403":
+      noticeText =
+        "Ensure that your PDF artwork is 33'' x 81''. Bottom 3'' of your artwork should not consist of important artwork because it will be hidden by the stand. ";
+
+    default:
+      noticeText =
+        "Ensure that the artwork is created in CMYK 300 dpi. Save the files as High Quality Print. - 1/16 inch bleeds on all sides. For Adobe PDF files, ensure all fonts and images are embedded and that all the text is outlined. Export all files into PDF format with bleeds.";
+  }
+
   useEffect(() => {
     setItem(selectedProduct);
   }, [productId]);
@@ -133,7 +147,7 @@ const Product = (props) => {
   return (
     <div>
       {/* <h3 className={styles.category}>{selectedProduct.category}</h3> */}
-      <h1 className="block text-center text-gray-700 text-4xl font-bold my-4">
+      <h1 className="block text-center bg-white text-gray-700 text-4xl font-bold my-4">
         {item?.name}
       </h1>
       <h2 className="block text-center text-gray-500 text-lg  my-4">
@@ -242,16 +256,7 @@ const Product = (props) => {
                   name="attachment"
                 />
                 <div className="text-red-600 text-xs flex flex-col max-w-sm">
-                  <p>*Ensure that the artwork is created in CMYK 300 dpi.</p>
-                  <p>
-                    Save the files as High Quality Print. - 1/16 inch bleeds on
-                    all sides.
-                  </p>
-                  <p>
-                    For Adobe PDF files, ensure all fonts and images are
-                    embedded and that all the text is outlined.
-                  </p>
-                  <p>Export all files into PDF format with bleeds.</p>
+                  {noticeText}
                 </div>
                 <div className="shadow appearance-none border mb-5 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                   <img

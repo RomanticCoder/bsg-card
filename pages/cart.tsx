@@ -5,7 +5,7 @@ import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import CartItem from "../src/components/CartItem";
 import UserInfoForm from "../src/components/UserInfoForm";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -48,7 +48,7 @@ const Home: NextPage<PageProps> = (props) => {
 
   const router = useRouter();
 
-  const formRef = useRef();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const nameInput = useRef<HTMLInputElement>(null);
   const phoneInput = useRef<HTMLInputElement>(null);
@@ -101,7 +101,6 @@ const Home: NextPage<PageProps> = (props) => {
 
   async function implementLocalCart() {
     localCartItems.forEach(async (item) => {
-      console.log(item);
       let attachmentUrl = "";
       if (item.attachment !== "") {
         const storageRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
@@ -196,6 +195,7 @@ const Home: NextPage<PageProps> = (props) => {
     const uid = userObj?.uid;
 
     placeOrder(uid);
+    sendEmail();
 
     router.push("/auth");
     console.log("form was submitted");
@@ -207,6 +207,28 @@ const Home: NextPage<PageProps> = (props) => {
     //   const imageRef = ref(storageService, cart.attachmentUrl)
     //   await deleteObject(imageRef);
     // });
+  };
+
+  const sendEmail = () => {
+    if (formRef.current === null) {
+      return;
+    }
+    console.log("email sending");
+    emailjs
+      .sendForm(
+        "service_2ff84cq",
+        "template_1yd5usp",
+        formRef.current,
+        "JlIow2qE0KquLvMgv"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   return (
@@ -265,6 +287,7 @@ const Home: NextPage<PageProps> = (props) => {
             {/* button -> firebase > database + storage */}
             {isLoggedIn && (
               <form
+                ref={formRef}
                 onSubmit={onFormSubmit}
                 className="flex flex-col bg-gray-200 gap-6 rounded-xl p-4"
               >
@@ -306,6 +329,14 @@ const Home: NextPage<PageProps> = (props) => {
                     />
                   </label>
                 </div>
+
+                <textarea
+                  name="message"
+                  defaultValue={cartItems.map(
+                    (item) => `${JSON.stringify(item)}\n`
+                  )}
+                  hidden
+                />
 
                 <input
                   className="bg-slate-800 text-white rounded-xl py-2"
