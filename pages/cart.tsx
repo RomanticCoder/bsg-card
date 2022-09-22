@@ -232,7 +232,7 @@ const Home: NextPage<PageProps> = (props) => {
   };
 
   return (
-    <div className="p-10 flex flex-col items-center gap-10">
+    <div className="p-10 w-full bg-slate-50 flex flex-col items-center gap-10">
       <h1 className="block text-center text-gray-700 text-4xl font-bold my-4 h-full">
         {userObj && <span>Your Cart</span>}
         {!userObj && <span>Cart (local device)</span>}

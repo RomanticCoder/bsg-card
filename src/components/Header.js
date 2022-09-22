@@ -7,7 +7,7 @@ export default function Header({ userObj }) {
     <>
       <nav id="header" className="w-full z-30 top-0 pt-3">
         <div className="w-full container mx-auto flex items-center justify-between my-0 px-6 pt-3 pb-6">
-          <div className="flex flex-column ">
+          <div className="flex flex-col ">
             <div className="flex flex-col  tracking-wide no-underline hover:no-underline ">
               <Link href="/">
                 <div className="flex gap-2 items-center">
@@ -77,7 +77,10 @@ export default function Header({ userObj }) {
         `}</style>
         <img src="/img/logo/banner_line.png" alt="bsg"></img>
       </nav>
-      <div className="categories flex justify-center gap-8 my-3 py-3 text-lg text-slate-600 font-bold ">
+      <div
+        className="categories flex flex-col pl-3
+       md:flex-row justify-center gap-8 my-3 py-3 text-lg text-slate-600 font-bold "
+      >
         <Link href="/products/1">
           <span className="text-bold hover:text-blue-700 ">Business Cards</span>
         </Link>

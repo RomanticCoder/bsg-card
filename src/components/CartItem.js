@@ -14,7 +14,7 @@ export default function CartItem({ item, onDelete }) {
   // console.log(item);
   console.log(item);
   return (
-    <li className="flex p-6 w-full  mb-3">
+    <li className="flex p-6  mb-3">
       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
         <Link href={`/products/good`}>
           <img
@@ -25,7 +25,7 @@ export default function CartItem({ item, onDelete }) {
         </Link>
       </div>
 
-      <div className="ml-4 flex flex-1 flex-col w-96">
+      <div className="ml-4 flex flex-col w-full md:w-96">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
             <h3>

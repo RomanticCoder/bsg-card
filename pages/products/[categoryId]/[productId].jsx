@@ -142,18 +142,15 @@ const Product = (props) => {
     moveToCart();
   };
 
-  console.log(item);
-
   return (
-    <div>
-      {/* <h3 className={styles.category}>{selectedProduct.category}</h3> */}
-      <h1 className="block text-center bg-white text-gray-700 text-4xl font-bold my-4">
+    <div className="bg-gray-100 pt-10">
+      <h1 className="block text-center text-gray-700 text-4xl font-bold my-4">
         {item?.name}
       </h1>
       <h2 className="block text-center text-gray-500 text-lg  my-4">
         {item?.category}
       </h2>
-      <div className="flex justify-center items-start flex-row">
+      <div className="flex justify-center items-center flex-col md:flex-row md:items-start gap-5">
         <div className="relative overflow-x-auto mx-10 shadow-md sm:rounded-lg">
           <img
             className="w-80"
