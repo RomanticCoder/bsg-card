@@ -166,8 +166,6 @@ const Product = (props) => {
 
             {item?.options &&
               item.options?.map((option) => {
-                console.log("see here");
-                console.log(option);
                 const name = Object.keys(option)[0];
                 const values = option[name];
                 return (
@@ -235,7 +233,8 @@ const Product = (props) => {
                 <input
                   id="attach-file"
                   type="file"
-                  accept="image/*"
+                  accept="image/*, application/pdf, application/ai, application/psd "
+                  // accept="image/* "
                   onChange={onFileChange}
                   className="opacity-0 h-0 hidden "
                   placeholder="hi"
