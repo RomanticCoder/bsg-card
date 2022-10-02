@@ -249,7 +249,7 @@ const Home: NextPage<PageProps> = (props) => {
       )} */}
 
       {cartItems?.length < 1 && (
-        <div className="w-96 mx-auto flex flex-col">
+        <div className=" mx-auto flex flex-col">
           <p className="text-center text-gray-700 text-2xl my-4">
             Your cart is empty.{" "}
           </p>

@@ -56,7 +56,10 @@ export default function Orders({ userObj }) {
       <ul className="flex flex-col p-6 w-2/3 rounded-lg shadow-lg mb-3 divide-y-2">
         {orders?.map((item) => {
           return (
-            <li key={item.id} className="flex p-6 w-full  mb-3">
+            <li
+              key={item.id}
+              className="flex flex-col md:flex-row p-6 w-full  mb-3"
+            >
               <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 {/* <Link to={`/product/${item.productId}`}> */}
                 <img
@@ -67,7 +70,7 @@ export default function Orders({ userObj }) {
                 {/* </Link> */}
               </div>
 
-              <div className="ml-4 flex flex-1 flex-col w-96">
+              <div className="ml-4 flex flex-col justify-between md:flex-row ">
                 <div>
                   <div className="flex justify-between text-base font-medium text-gray-900">
                     <h3>
@@ -75,7 +78,6 @@ export default function Orders({ userObj }) {
                       {/* <Link to={`/product/${item.productId}`}>{item.name}</Link> */}
                     </h3>
                     {/* <p className="ml-4">${item.price}</p> */}
-                    <p className="ml-4">Total: ${item.price * item.amount}</p>
                   </div>
                   {item.options?.length > 0 &&
                     item.options.map((option, index) => {
@@ -85,16 +87,20 @@ export default function Orders({ userObj }) {
                       return (
                         <p
                           key={`options_${index}`}
-                          className="mt-1 text-sm text-gray-500 flex justify-start"
+                          className="mt-1 text-sm text-gray-500 flex flex-col justify-start"
                         >
-                          {name}:{value}
+                          <p className="font-semibold text-blue-700">
+                            {name}:{" "}
+                          </p>
+                          <p>{value}</p>
                         </p>
                       );
                       // return (<p className="mt-1 text-sm text-gray-500 flex justify-start">good {option}</p>)
                     })}
-                </div>
-                <div className="flex flex-1 items-end justify-between text-sm mt-2">
                   <p className="text-gray-700">Amount: {item.amount}</p>
+                  <div className="mt-4 text-xl font-semibold">
+                    Total: ${item.price * item.amount}
+                  </div>
                 </div>
               </div>
             </li>

@@ -78,7 +78,7 @@ export default function Header({ userObj }) {
         <img src="/img/logo/banner_line.png" alt="bsg"></img>
       </nav>
       <div
-        className="categories flex flex-col pl-3
+        className="categories flex flex-col pl-3 bg-white
        md:flex-row justify-center gap-8 my-3 py-3 text-lg text-slate-600 font-bold "
       >
         <Link href="/products/1">

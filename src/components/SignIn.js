@@ -41,20 +41,22 @@ const Auth = () => {
         <span>OR</span>
         <div className={styles.divider}></div>
       </div>
-      <div className={styles.authBtns}>
+      <div className="flex flex-col gap-2 mb-40">
         <button
           onClick={onSocialClick}
           name="google"
-          className={styles.authBtn}
+          className="bg-blue-500 text-white rounded-xl px-4 py-2"
         >
-          Continue with Google <FontAwesomeIcon icon={faGoogle} />
+          Continue with Google{" "}
+          <FontAwesomeIcon icon={faGoogle} className="text-lx" />
         </button>
         <button
           onClick={onSocialClick}
           name="github"
-          className={styles.authBtn}
+          className="bg-blue-500 text-white rounded-xl px-4 py-2"
         >
-          Continue with Github <FontAwesomeIcon icon={faGithub} />
+          Continue with Github{" "}
+          <FontAwesomeIcon icon={faGithub} className="text-lx" />
         </button>
       </div>
     </div>
