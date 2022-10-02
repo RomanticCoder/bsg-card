@@ -156,28 +156,6 @@ const Product = (props) => {
             className="w-80"
             src={`/img/products/${selectedProduct?.id}.jpg`}
           />
-          {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <tbody className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                >
-                  Paper Type
-                </th>
-                <td>sample: 14PT Gloss (95 Bright C2S)</td>
-              </tr>
-              <tr>
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                >
-                  Coating
-                </th>
-                <td>sample: No Coating</td>
-              </tr>
-            </tbody>
-          </table> */}
         </div>
         {item && (
           <form
@@ -237,22 +215,33 @@ const Product = (props) => {
                 );
               })}
 
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Amount
+              </label>
+              <input
+                name="amount"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:shadow-outline"
+                type="number"
+                value={state.amount}
+                onChange={onInputChange}
+                min="1"
+              />
+            </div>
+
             <div>
-              <label
-                className="block text-gray-700 text-xs font-bold mb-2"
-                htmlFor="attach-file"
-              >
+              <label className="block text-gray-700 text-sm font-bold">
                 Upload your design
                 <input
                   id="attach-file"
                   type="file"
                   accept="image/*"
                   onChange={onFileChange}
-                  className="opacity-0 "
+                  className="opacity-0 h-0 hidden "
                   placeholder="hi"
                   name="attachment"
                 />
-                <div className="text-red-600 text-xs flex flex-col max-w-sm">
+                <div className="text-red-600 text-xs flex flex-col max-w-sm mb-2">
                   {noticeText}
                 </div>
                 <div className="shadow appearance-none border mb-5 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -275,20 +264,6 @@ const Product = (props) => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Amount
-              </label>
-              <input
-                name="amount"
-                className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="number"
-                value={state.amount}
-                onChange={onInputChange}
-                min="1"
-              />
-            </div>
-
-            <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="notes"
@@ -297,7 +272,7 @@ const Product = (props) => {
               </label>
               <textarea
                 name="notes"
-                className="shadow-sm border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:shadow-outline"
                 onChange={onInputChange}
                 placeholder="Enter your name here"
                 cols={40}
