@@ -45,7 +45,7 @@ const AuthForm = () => {
       <form onSubmit={onSubmit} className=" flex flex-col w-96 p-10 gap-3">
         <input
           name="email"
-          className="bg-slate-300 rounded px-2 py-1"
+          className="border border-black bg-white text-black font-bold rounded px-2 py-1"
           type="text"
           placeholder="Email"
           required
@@ -54,7 +54,7 @@ const AuthForm = () => {
         />
         <input
           name="password"
-          className="bg-slate-300 rounded px-2 py-1"
+          className="border border-black bg-white text-black font-bold rounded px-2 py-1"
           type="password"
           placeholder="Password"
           required
