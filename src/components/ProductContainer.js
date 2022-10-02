@@ -11,7 +11,7 @@ export default function ProductContainer({
 }) {
   console.log(id);
   return (
-    <div className="flex flex-col font-sans mx-3 mt-4 rounded-xl shadow-md">
+    <div className="flex flex-col font-sans mx-3 mt-10 rounded-xl shadow-md gap-10">
       <Link href={`/products/${categoryId}/${id}`}>
         <div>
           <div className="flex-none w-80 h-48 relative">
