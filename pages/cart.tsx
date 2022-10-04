@@ -216,7 +216,7 @@ const Home: NextPage<PageProps> = (props) => {
     console.log("email sending");
     emailjs
       .sendForm(
-        "service_2ff84cq",
+        "service_l4eb47u",
         "template_1yd5usp",
         formRef.current,
         "JlIow2qE0KquLvMgv"
@@ -332,9 +332,28 @@ const Home: NextPage<PageProps> = (props) => {
 
                 <textarea
                   name="message"
-                  defaultValue={cartItems.map(
-                    (item) => `${JSON.stringify(item)}\n`
-                  )}
+                  defaultValue={cartItems.map((item) => {
+                    const {
+                      amount,
+                      id: orderID,
+                      attachmentUrl,
+                      name,
+                      price,
+                      productId,
+                      userId,
+                      options,
+                    } = item;
+                    return `
+
+order id: ${orderID},\r\n
+product id: ${productId},\r\n
+name: ${name},\r\n
+amount: ${amount},\r\n
+options: ${JSON.stringify(options)},\r\n
+attachment url: ${attachmentUrl},\r\n
+
+    `;
+                  })}
                   hidden
                 />
 

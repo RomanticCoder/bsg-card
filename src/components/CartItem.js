@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 
 export default function CartItem({ item, onDelete }) {
-  console.log(item);
   const onClick = (e) => {
     onDelete(item.id, item.attachmentUrl);
   };
@@ -12,7 +11,6 @@ export default function CartItem({ item, onDelete }) {
   //   OnQuantityClick(item.id, updatedAmount);
   // };
   // console.log(item);
-  console.log(item);
   return (
     <li className="flex p-6  mb-3">
       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -38,7 +36,6 @@ export default function CartItem({ item, onDelete }) {
             item.options.map((option, index) => {
               const name = Object.keys(option)[0];
               const value = option[name];
-              console.log(name, value);
               return (
                 <p
                   key={`options_${index}`}

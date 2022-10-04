@@ -45,19 +45,19 @@ const Auth = () => {
         <button
           onClick={onSocialClick}
           name="google"
-          className="bg-blue-500 text-white rounded-xl px-4 py-2"
+          className="bg-blue-500 text-white rounded-xl px-4 py-2 flex flex-row items-center gap-2"
         >
           Continue with Google{" "}
-          <FontAwesomeIcon icon={faGoogle} className="text-lx" />
+          <FontAwesomeIcon icon={faGoogle} className="text-sm h-6" />
         </button>
-        <button
+        {/* <button
           onClick={onSocialClick}
           name="github"
-          className="bg-blue-500 text-white rounded-xl px-4 py-2"
+          className="bg-blue-500 text-white rounded-xl px-4 py-2 flex flex-row items-center gap-2"
         >
           Continue with Github{" "}
-          <FontAwesomeIcon icon={faGithub} className="text-lx" />
-        </button>
+          <FontAwesomeIcon icon={faGithub} className="text-sm h-6" />
+        </button> */}
       </div>
     </div>
   );
